@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import "./App.css";
-import logo from "./logo.svg";
-import DisplayNames from "./DisplayNames"
-
+import "../App.css";
+import logo from "../logo.svg";
 
 const profiles = [
   {
@@ -97,13 +95,46 @@ class App extends Component {
   render() {
     /*Return JSX*/
     return (
-        <div>
+      /*
+      Without this '(', JS will automatically put a ';' after the `return`
+      keyword.
+      */
+      <div>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">ReactND - Coding Practice</h1>
         </header>
-      <DisplayNames profiles={profiles} movies={movies} users={users}/>
-	  </div>
+        <ul>
+          <h2>Favorite Movies</h2>
+
+          {/*
+          For each object in the profiles array, make a list of JSX elements.
+          The map function returns a new array, which will
+          only have list elements in it. React will automatically know how to
+          render an array of JSX objects.
+          */}
+          {profiles.map(profile => {
+            const userName = users[profile.userID].name;
+            const favMovieName = movies[profile.favoriteMovieID].name;
+
+            return (
+              /*
+              You need to include the `key` property every time you create list
+              elements in React. The key property is necessary because it enables
+              React to perform reconciliation
+              (https://reactjs.org/docs/reconciliation.html)
+              */
+              <li key={profile.id}>
+                {/* If the syntax below looks unfamiliar, please take the following
+              course:
+              https://www.udacity.com/course/es6-javascript-improved--ud356
+                */}
+                <p>{`${userName}\'s favorite movie is "${favMovieName}."`}</p>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     );
   }
 }
